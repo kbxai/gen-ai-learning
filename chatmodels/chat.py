@@ -9,3 +9,7 @@ llm = init_chat_model(
     temperature=0,
     max_tokens=200
 )
+
+response = llm.invoke("write a poem on AI")
+
+print(response.content)
