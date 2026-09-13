@@ -9,6 +9,7 @@ llm = init_chat_model(
     temperature=0,
     max_tokens=200
 )
+#temprature: ye model ke output me randomness ko control karta hai. Higher temperature means more randomness, while lower temperature means more deterministic output.
 
 response = llm.invoke("write a poem on AI")
 
