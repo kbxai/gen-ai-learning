@@ -1,6 +1,9 @@
+from langchain_core.prompts import ChatPromptTemplate
+from dotenv import load_dotenv
+
 from pydantic import BaseModel
 from typing import List, Optional
-from dotenv import load_dotenv
+from langchain_core.output_parsers import PydanticOutputParser
 
 load_dotenv()
 
@@ -13,3 +16,20 @@ class MovieInfo(BaseModel):
     cast: Optional[List[str]] = None
     imdb_rating: Optional[float] = None
     summary: Optional[str] = None
+
+
+parser = PydanticOutputParser(pydantic_object=MovieInfo)
+
+
+prompt = ChatPromptTemplate.from_messages([
+    (
+        "system",
+        """Extract movie information from the paragraph.
+
+{format_instructions}"""
+    ),
+    (
+        "human",
+        "{text}"
+    )
+])
