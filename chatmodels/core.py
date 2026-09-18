@@ -1,3 +1,5 @@
+import streamlit as st
+
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.prompts import ChatPromptTemplate
 from dotenv import load_dotenv
@@ -38,4 +40,13 @@ prompt = ChatPromptTemplate.from_messages([
 
 model = ChatGoogleGenerativeAI(
     model="gemini-3.5-flash-lite"
+)
+
+
+# Streamlit UI
+st.title("Movie Information Extractor")
+
+para = st.text_area(
+    "Enter the movie-related text:",
+    height=250
 )
