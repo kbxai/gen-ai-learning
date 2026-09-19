@@ -50,3 +50,18 @@ para = st.text_area(
     "Enter the movie-related text:",
     height=250
 )
+
+
+if st.button("Extract Information"):
+    if para:
+
+        final_prompt = prompt.format_prompt(
+            text=para,
+            format_instructions=parser.get_format_instructions()
+        ).to_string()
+
+        response = model.invoke(final_prompt)
+
+        result = parser.parse(response.content[0]["text"])
+
+        st.write(result)
