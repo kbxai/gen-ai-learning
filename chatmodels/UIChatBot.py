@@ -56,3 +56,27 @@ if personality != st.session_state.last_personality:
     st.session_state.messages = [make_system_message(personality)]
     st.session_state.last_personality = personality
     st.rerun()
+
+# ---- Render existing conversation (skip the SystemMessage) ----
+for msg in st.session_state.messages:
+    if isinstance(msg, HumanMessage):
+        with st.chat_message("user"):
+            st.markdown(msg.content)
+    elif isinstance(msg, AIMessage):
+        with st.chat_message("assistant"):
+            st.markdown(msg.content)
+
+# ---- Chat input ----
+prompt = st.chat_input("You:")
+
+if prompt:
+    st.session_state.messages.append(HumanMessage(content=prompt))
+    with st.chat_message("user"):
+        st.markdown(prompt)
+
+    with st.chat_message("assistant"):
+        with st.spinner("Thinking..."):
+            response = model.invoke(st.session_state.messages)
+        st.markdown(response.content)
+
+    st.session_state.messages.append(AIMessage(content=response.content))
